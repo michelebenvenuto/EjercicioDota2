@@ -1,3 +1,3 @@
 interface Narrador {
-    fun narrar(evento: String)
+    fun narrar(evento: String): String
 }
