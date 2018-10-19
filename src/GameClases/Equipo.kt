@@ -1,9 +1,9 @@
 package GameClases
 
 class Equipo(
-        val heroes: ArrayList<Heroes>,
-        val torres: ArrayList<Torre>,
-        val ancient: Ancient
+        val heroes: ArrayList<Heroes> = ArrayList(),
+        val torres: ArrayList<Torre> = ArrayList() ,
+        val ancient: Ancient = Ancient()
 )
 {
     fun destruirUnaTorre():Boolean{
@@ -16,6 +16,9 @@ class Equipo(
         return false
     }
     fun destruirAncient(){
-        this.ancient.isAlive=false
+        if(!destruirUnaTorre()){
+            this.ancient.isAlive=false
+        }
+
     }
 }
