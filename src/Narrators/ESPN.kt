@@ -25,7 +25,7 @@ class ESPN: Narrador{
             return "5 kills mas para radiant y colorin colorado creo que este cuento se ha acabado"
         }
         else if (evento=="5 kills dire"){
-            return "5 kill mas para dire, parece que solo hay un equipo en la cancha"
+            return "5 kills mas para dire, parece que solo hay un equipo en la cancha"
         }
         else if (evento=="Torre radiant"){
             return "Una torre menos para dire"

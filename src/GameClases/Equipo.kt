@@ -16,9 +16,13 @@ class Equipo(
         return false
     }
     fun destruirAncient(){
-        if(!destruirUnaTorre()){
             this.ancient.isAlive=false
+    }
+    fun areThereTowersStillAlive():Boolean{
+        val aliveTowers = torres.filter { it.isAlive }
+        if (aliveTowers.count()>0){
+            return true
         }
-
+        return false
     }
 }

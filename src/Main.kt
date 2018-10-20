@@ -1,5 +1,6 @@
 import GameClases.Equipo
 import GameClases.Heroes
+import GameClases.Torre
 import Narrators.ESPN
 import kotlin.concurrent.thread
 
@@ -8,6 +9,12 @@ fun main(args: Array<String>) {
         Menu:
         1) Ocurrieron Muertes
         2) Matan Torres
+    """.trimIndent()
+    val menuHayGanador="""
+        Menu:
+        1) Ocurrieron Muertes
+        2) Matan Torres
+        3) Matar Ancient
     """.trimIndent()
     var heroes = arrayListOf<Heroes>(
             Heroes("Alchemist", "Strength"),
@@ -32,7 +39,21 @@ fun main(args: Array<String>) {
             Heroes("Enchantress", "Intelligence")
     )
     val radiant= Equipo()
+    //se agregan las torres de radiant
+    radiant.torres.add(Torre())
+    radiant.torres.add(Torre())
+    radiant.torres.add(Torre())
+    radiant.torres.add(Torre())
+    radiant.torres.add(Torre())
+    radiant.torres.add(Torre())
     val dire = Equipo()
+    //se agregan las torres de dire
+    dire.torres.add(Torre())
+    dire.torres.add(Torre())
+    dire.torres.add(Torre())
+    dire.torres.add(Torre())
+    dire.torres.add(Torre())
+    dire.torres.add(Torre())
     val game = Game<ESPN>(radiant,dire,0,0, ESPN())
     var counter = 1
     var isRadiantsTurnToPick= true
@@ -78,10 +99,128 @@ fun main(args: Array<String>) {
             println("Dire")
             println("------")
         }
-    }while (radiant.heroes.size<5||dire.heroes.size<5)
+    }while (radiant.heroes.size<5 || dire.heroes.size<5)
     println("----------------")
     println("Empieza el Juego")
     println("----------------")
     println(game.narrador.narrar("empieza el juego"))
+
+    //Durante el juego
+    var thereIsAWinner=false
+    do {
+        if (!radiant.areThereTowersStillAlive() || !dire.areThereTowersStillAlive()){
+            println(menuHayGanador)
+            print(">>")
+            var selectedOption=readLine()!!.toInt()
+            when(selectedOption){
+                1->{
+                    println("Fue Radiant quien mato? si/no")
+                    print(">>")
+                    var equipoQueMato= readLine()!!.toUpperCase()
+                    if (equipoQueMato=="SI"){
+                        print("Cuantas? ")
+                        var cuantas= readLine()!!.toInt()
+                        if (cuantas==1){
+                            println(game.ocurrioUnKill(true))
+                        }
+                        else if(cuantas>1 && cuantas<5){
+                            println(game.ocurrioDosOMasKills(true, cuantas))
+                        }else if(cuantas==5){
+                            println(game.ocurrio5Kills(true))
+                        }
+                    }
+                    else if(equipoQueMato=="NO"){
+                        print("Cuantas? ")
+                        var cuantas= readLine()!!.toInt()
+                        if (cuantas==1){
+                            println(game.ocurrioUnKill(false))
+                        }
+                        else if(cuantas>1 && cuantas<5){
+                            println(game.ocurrioDosOMasKills(false, cuantas))
+                        }else if(cuantas==5){
+                            println(game.ocurrio5Kills(false))
+                        }
+
+                    }
+
+                }
+
+                2->{
+                    println("Fue Radiant quien mato? si/no")
+                    print(">>")
+                    var equipoQueMato= readLine()!!.toUpperCase()
+                    if (equipoQueMato=="SI"){
+                        println(game.matanUnaTorre(true))
+                    }
+                    else if (equipoQueMato=="NO"){
+                        println(game.matanUnaTorre(false))
+                    }
+                }
+                3->{
+                    println("Fue Radiant quien mato? si/no")
+                    print(">>")
+                    var equipoQueMato= readLine()!!.toUpperCase()
+                    if (equipoQueMato=="SI"){
+                        game.dire.destruirAncient()
+                        thereIsAWinner=true
+                        println(game.radiantGana())
+                    }
+                    else if(equipoQueMato=="NO"){
+                        game.radiant.destruirAncient()
+                        thereIsAWinner=true
+                        println(game.direGana())
+                    }
+                }
+            }
+        }
+        else{
+            println(menuNoHayGanador)
+            print(">>")
+            var selectedOption=readLine()!!.toInt()
+            when(selectedOption){
+                1->{
+                    println("Fue Radiant quien mato? si/no")
+                    print(">>")
+                    var equipoQueMato= readLine()!!.toUpperCase()
+                    if (equipoQueMato=="SI"){
+                        print("Cuantas? ")
+                        var cuantas= readLine()!!.toInt()
+                        if (cuantas==1){
+                            println(game.ocurrioUnKill(true))
+                        }
+                        else if(cuantas>1 && cuantas<5){
+                            println(game.ocurrioDosOMasKills(true, cuantas))
+                        }else if(cuantas==5){
+                            println(game.ocurrio5Kills(true))
+                        }
+                    }
+                    else if(equipoQueMato=="NO"){
+                        print("Cuantas? ")
+                        var cuantas= readLine()!!.toInt()
+                        if (cuantas==1){
+                            println(game.ocurrioUnKill(false))
+                        }
+                        else if(1<cuantas && cuantas<5){
+                            println(game.ocurrioDosOMasKills(false, cuantas))
+                        }else if(cuantas==5){
+                            println(game.ocurrio5Kills(false))
+                        }
+
+                    }
+                }
+                2->{
+                    println("Fue Radiant quien mato? si/no")
+                    print(">>")
+                    var equipoQueMato= readLine()!!.toUpperCase()
+                    if (equipoQueMato=="SI"){
+                        println(game.matanUnaTorre(true))
+                    }
+                    else if (equipoQueMato=="NO"){
+                        println(game.matanUnaTorre(false))
+                    }
+                }
+            }
+        }
+    }while (thereIsAWinner==false)
 
 }
